@@ -2,12 +2,7 @@ package vcmsa.ci.game
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -15,16 +10,14 @@ import androidx.core.view.WindowInsetsCompat
 
 class Input : AppCompatActivity() {
 
-    // Declare UI elements
     private lateinit var dateInput: EditText
     private lateinit var minutesPlayedInput: EditText
     private lateinit var genreSpinner: Spinner
-    private lateinit var ratingGroup: RadioGroup
+    private lateinit var ratingSpinner: Spinner
     private lateinit var addEntryButton: Button
     private lateinit var buttonClear: Button
     private lateinit var buttonDetail: Button
 
-    // Store data in lists
     private val dates = mutableListOf<String>()
     private val minutesPlayedList = mutableListOf<Int>()
     private val genres = mutableListOf<String>()
@@ -34,43 +27,35 @@ class Input : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_input)
-        // Initialize UI elements
+
         dateInput = findViewById(R.id.dateinputeditText)
         minutesPlayedInput = findViewById(R.id.minsplayededitText)
         genreSpinner = findViewById(R.id.gameGenre)
-        ratingGroup = findViewById(R.id.Gamerating)
+        ratingSpinner = findViewById(R.id.gameRatingSpinner) // Updated for Spinner
         addEntryButton = findViewById(R.id.Addentrybtn)
         buttonClear = findViewById(R.id.buttonClear)
         buttonDetail = findViewById(R.id.buttonDetail)
 
-        // Button actions
-        addEntryButton.setOnClickListener {
-            addGameEntry()
-        }
+        addEntryButton.setOnClickListener { addGameEntry() }
+        buttonClear.setOnClickListener { clearInputs() }
+        buttonDetail.setOnClickListener { startActivity(Intent(this, DetailedViewScreen::class.java)) }
 
-        buttonClear.setOnClickListener {
-            clearInputs()
-        }
-
-        buttonDetail.setOnClickListener {
-            startActivity(Intent(this, DetailedViewScreen::class.java))
+        // Ensure proper edge-to-edge layout adjustments
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.rootView)) { view, insets ->
+            view.setPadding(0, insets.systemWindowInsetTop, 0, insets.systemWindowInsetBottom)
+            insets
         }
     }
 
     private fun addGameEntry() {
         try {
-            val date = dateInput.text.toString()
-            val minutesPlayed = minutesPlayedInput.text.toString().toInt()
+            val date = dateInput.text.toString().trim()
+            if (date.isEmpty()) throw IllegalArgumentException("Date cannot be empty!")
+
+            val minutesPlayed = minutesPlayedInput.text.toString().trim().toInt()
             val genre = genreSpinner.selectedItem.toString()
+            val rating = ratingSpinner.selectedItem.toString().toInt() // Updated for Spinner
 
-            // Get selected radio button value
-            val selectedRatingId = ratingGroup.checkedRadioButtonId
-            if (selectedRatingId == -1) {
-                throw IllegalArgumentException("Please select a rating")
-            }
-            val rating = findViewById<RadioButton>(selectedRatingId).text.toString().toInt()
-
-            // Store data in lists
             dates.add(date)
             minutesPlayedList.add(minutesPlayed)
             genres.add(genre)
@@ -78,8 +63,8 @@ class Input : AppCompatActivity() {
 
             Toast.makeText(this, "Entry Added!", Toast.LENGTH_SHORT).show()
 
-            // Display stored entries
-            for (i in dates.indices) {
+            // Debugging log to verify stored entries
+            dates.indices.forEach { i ->
                 println("Game session: Date: ${dates[i]}, Minutes: ${minutesPlayedList[i]}, Genre: ${genres[i]}, Rating: ${ratings[i]}")
             }
         } catch (e: NumberFormatException) {
@@ -95,6 +80,6 @@ class Input : AppCompatActivity() {
         dateInput.text.clear()
         minutesPlayedInput.text.clear()
         genreSpinner.setSelection(0)
-        ratingGroup.clearCheck()
+        ratingSpinner.setSelection(0) // Updated for Spinner
     }
 }
