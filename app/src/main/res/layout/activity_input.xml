@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/drawable"
+    tools:context=".Input">
+
+
+    <EditText
+        android:id="@+id/dateinputeditText"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:inputType="text"
+        android:layout_marginBottom="30dp"
+        android:textSize="20dp"
+        android:hint="Date"
+        />
+
+    <EditText
+        android:id="@+id/minsplayededitText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:textSize="20dp"
+        android:layout_marginBottom="30dp"
+        android:hint="Minutes Played"
+        />
+
+    <Spinner
+        android:id="@+id/gameGenre"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="30dp"
+        />
+
+    <Spinner
+        android:id="@+id/Gamerating"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="30dp"
+        android:layout_height="50dp" />
+
+    <Button
+        android:id="@+id/Addentrybtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:textSize="20dp"
+        android:text="Add Entry" />
+
+    <Button
+        android:id="@+id/buttonClear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:textSize="20dp"
+        android:text="Clear" />
+
+    <Button
+        android:id="@+id/buttonDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="Details" />
+</LinearLayout>
